@@ -95,24 +95,24 @@ class TBOClient
      * @param \DOMElement|null $parent
      * @param string|null $key
      */
-    public function composeBody(array $data, $parent = null, $key = null)
+    private function composeBody(array $data, $parent = null, $key = null)
     {
-        if (!is_array($data)) {
-            $this->composeField($key, $data, $parent);
-            return;
-        }
-        if (is_array_numeric($data)) {
-            $parent = $this->composeBody($key, null, $parent);
-            $singularKey = substr($key, 0, strlen($key) - 1);
-            foreach ($data as $value) {
-                $this->composeBody($value, $parent, $singularKey);
-            }
-        } else {
-            if ($key) $parent = $this->composeField($key, null, $parent);
-            foreach ($data as $key => $value) {
-                $this->composeBody($value, $parent, $key);
-            }
-        }
+//        if (!is_array($data)) {
+//            $this->composeField($key, $data, $parent);
+//            return;
+//        }
+//        if (is_array_numeric($data)) {
+//            $parent = $this->composeBody($key, null, $parent);
+//            $singularKey = substr($key, 0, strlen($key) - 1);
+//            foreach ($data as $value) {
+//                $this->composeBody($value, $parent, $singularKey);
+//            }
+//        } else {
+//            if($key) $parent = $this->composeField($key, null, $parent);
+//            foreach ($data as $key => $value) {
+//                $this->composeBody($value, $parent, $key);
+//            }
+//        }
     }
 
     /**
@@ -133,9 +133,5 @@ class TBOClient
         $this->requestXMLInnerBody->appendChild($element);
     }
 
-    private function myPrint($msg1,$msg2)
-    {
-        return $msg1;
-    }
 }
 

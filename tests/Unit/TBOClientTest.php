@@ -16,7 +16,7 @@ class TBOClientTest extends TestCase
         $this->assertInstanceOf(TBOClient::class, $client);
     }
 
-    public function test_TBOClient_constructor_well_generates_well_structured_xml_request()
+    public function test_TBOClient_constructor_generates_well_structured_xml_request()
     {
         $action = 'SomeAction';
         $client = new TBOClient($action);
