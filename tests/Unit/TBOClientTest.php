@@ -75,7 +75,7 @@ class TBOClientTest extends TestCase
 
     public function test_compose_body()
     {
-        $client = new TBOClient('Action');
+        $client = new TBOClient(TBOClient::ACTION_HOTEL_SEARCH);
         $this->invokeMethod($client, 'composeBody', [
             'data' => [
                 'Guests' => '3',

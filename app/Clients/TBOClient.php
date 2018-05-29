@@ -75,9 +75,8 @@ class TBOClient
         $this->requestXMLDocument->appendChild($this->requestXMLEnv);
     }
 
-
     /**
-     * Sets body fields of the request
+     * Sets the fields of the body request
      *
      * @param array $data
      * @return TBOClient
@@ -96,7 +95,7 @@ class TBOClient
      * @param \DOMElement|null $parent
      * @param string|null $key
      */
-    private function composeBody(array $data, $parent = null, $key = null)
+    public function composeBody(array $data, $parent = null, $key = null)
     {
         if (!is_array($data)) {
             $this->composeField($key, $data, $parent);
@@ -109,7 +108,7 @@ class TBOClient
                 $this->composeBody($value, $parent, $singularKey);
             }
         } else {
-            $parent = $this->composeBody($key, null, $parent);
+            if ($key) $parent = $this->composeField($key, null, $parent);
             foreach ($data as $key => $value) {
                 $this->composeBody($value, $parent, $key);
             }
@@ -134,5 +133,9 @@ class TBOClient
         $this->requestXMLInnerBody->appendChild($element);
     }
 
+    private function myPrint($msg1,$msg2)
+    {
+        return $msg1;
+    }
 }
 

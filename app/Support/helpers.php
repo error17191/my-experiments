@@ -6,9 +6,9 @@
  * @param array $array
  * @return bool
  */
-function is_array_numeric(array $array): bool
+function is_numeric_array(array $array): bool
 {
-    if (array() === $array) return true;
+    if ([] === $array) return true;
     return array_keys($array) === range(0, count($array) - 1);
 }
 
@@ -19,7 +19,7 @@ function is_array_numeric(array $array): bool
  * @return bool
  */
 
-function is_array_assoc(array $array): bool
+function is_assoc_array(array $array): bool
 {
-    return !is_array_numeric($array);
+    return !is_numeric_array($array);
 }
