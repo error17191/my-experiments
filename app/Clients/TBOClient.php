@@ -96,9 +96,8 @@ class TBOClient
      * @param array $data
      * @param \DOMElement|null $parent
      * @param string|null $elementKey
-     * @param bool|false $parentIsNumeric
      */
-    private function composeBody(array $data,\DOMElement $parent = null, string $elementKey = null,bool $parentIsNumeric = false)
+    private function composeBody(array $data,\DOMElement $parent = null, string $elementKey = null)
     {
 //        if(null === $parent && is_numeric_array($data)){
 //            throw new InvalidRequestStructure();
@@ -108,16 +107,15 @@ class TBOClient
         }
 
         if(is_numeric_array($data)){
-            $parentIsNumeric = true;
             foreach ($data as $datum) {
                 if(gettype($datum) !== 'array'){
                     $this->composeField($elementKey,$datum,$parent);
                 }else{
-                    if($parentIsNumeric && is_numeric_array($datum)){
+                    if($elementKey && is_numeric_array($datum)){
                         throw new InvalidRequestStructure();
                     }
                     $parentElement = $this->composeField($elementKey,'',$parent);
-                    $this->composeBody($datum,$parentElement,null,$parentIsNumeric);
+                    $this->composeBody($datum,$parentElement);
                 }
             }
         }else{
