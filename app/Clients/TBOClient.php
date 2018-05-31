@@ -99,9 +99,6 @@ class TBOClient
      */
     private function composeBody(array $data,\DOMElement $parent = null, string $elementKey = null)
     {
-//        if(null === $parent && is_numeric_array($data)){
-//            throw new InvalidRequestStructure();
-//        }
         if(null === $parent && is_numeric_array($data)){
             throw new InvalidRequestStructure();
         }
