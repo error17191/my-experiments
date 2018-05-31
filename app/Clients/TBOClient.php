@@ -2,6 +2,8 @@
 
 namespace App\Clients;
 
+use App\Exceptions\Clients\TBO\InvalidRequestStructure;
+
 class TBOClient
 {
     //Request Parts
@@ -94,16 +96,28 @@ class TBOClient
      * @param array $data
      * @param \DOMElement|null $parent
      * @param string|null $elementKey
+     * @param bool|false $parentIsNumeric
      */
-    private function composeBody(array $data,\DOMElement $parent = null, string $elementKey = null)
+    private function composeBody(array $data,\DOMElement $parent = null, string $elementKey = null,bool $parentIsNumeric = false)
     {
+//        if(null === $parent && is_numeric_array($data)){
+//            throw new InvalidRequestStructure();
+//        }
+        if(null === $parent && is_numeric_array($data)){
+            throw new InvalidRequestStructure();
+        }
+
         if(is_numeric_array($data)){
+            $parentIsNumeric = true;
             foreach ($data as $datum) {
                 if(gettype($datum) !== 'array'){
                     $this->composeField($elementKey,$datum,$parent);
                 }else{
+                    if($parentIsNumeric && is_numeric_array($datum)){
+                        throw new InvalidRequestStructure();
+                    }
                     $parentElement = $this->composeField($elementKey,'',$parent);
-                    $this->composeBody($datum,$parentElement);
+                    $this->composeBody($datum,$parentElement,null,$parentIsNumeric);
                 }
             }
         }else{

@@ -1,0 +1,15 @@
+PHPUnit 7.1.5 by Sebastian Bergmann and contributors.
+
+[41;37mF[0m                                                                   1 / 1 (100%)
+
+Time: 164 ms, Memory: 10.00MB
+
+There was 1 failure:
+
+1) Tests\Unit\TBOClientTest::test_compose_body
+Failed asserting that 3 matches expected 2.
+
+C:\laragon\www\my-experiments\tests\Unit\TBOClientTest.php:101
+
+[37;41mFAILURES![0m
+[37;41mTests: 1[0m[37;41m, Assertions: 2[0m[37;41m, Failures: 1[0m[37;41m.[0m
