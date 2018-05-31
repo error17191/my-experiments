@@ -93,26 +93,33 @@ class TBOClient
      *
      * @param array $data
      * @param \DOMElement|null $parent
-     * @param string|null $key
+     * @param string|null $elementKey
      */
-    private function composeBody(array $data, $parent = null, $key = null)
+    private function composeBody(array $data,\DOMElement $parent = null, string $elementKey = null)
     {
-//        if (!is_array($data)) {
-//            $this->composeField($key, $data, $parent);
-//            return;
-//        }
-//        if (is_array_numeric($data)) {
-//            $parent = $this->composeBody($key, null, $parent);
-//            $singularKey = substr($key, 0, strlen($key) - 1);
-//            foreach ($data as $value) {
-//                $this->composeBody($value, $parent, $singularKey);
-//            }
-//        } else {
-//            if($key) $parent = $this->composeField($key, null, $parent);
-//            foreach ($data as $key => $value) {
-//                $this->composeBody($value, $parent, $key);
-//            }
-//        }
+        if(is_numeric_array($data)){
+            foreach ($data as $datum) {
+                if(gettype($datum) !== 'array'){
+                    $this->composeField($elementKey,$datum,$parent);
+                }else{
+                    $parentElement = $this->composeField($elementKey,'',$parent);
+                    $this->composeBody($datum,$parentElement);
+                }
+            }
+        }else{
+            foreach ($data as $key => $value){
+                if(gettype($value) !== 'array'){
+                    $this->composeField($key,$value,$parent);
+                }elseif (is_numeric_array($value)){
+                    $parentElement = $this->composeField($key,'',$parent);
+                    $singularKey = substr($key,0,strlen($key)-1);
+                    $this->composeBody($value,$parentElement,$singularKey);
+                }else{
+                    $parentElement = $this->composeField($key,'',$parent);
+                    $this->composeBody($value,$parentElement);
+                }
+            }
+        }
     }
 
     /**
@@ -123,14 +130,15 @@ class TBOClient
      * @param \DOMElement|null $parent
      */
 
-    private function composeField(string $key, string $value = null, \DOMElement &$parent = null)
+    private function composeField(string $key, string $value = null, \DOMElement $parent = null)
     {
         $element = $this->requestXMLDocument->createElement("hot:{$key}", $value);
         if ($parent) {
             $parent->appendChild($element);
-            return;
+            return $element;
         }
         $this->requestXMLInnerBody->appendChild($element);
+        return $element;
     }
 
 }

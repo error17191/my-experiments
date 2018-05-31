@@ -80,13 +80,23 @@ class TBOClientTest extends TestCase
             'data' => [
                 'Guests' => '3',
                 'rooms' => '4',
-                'person' => [
-                    'name' => 'Mohamed Ahmed'
+                'persons' => [
+                    ['name' => 'Mohamed Ahmed','age'=>'27'],
+                    ['name' => 'Ibrahim','age'=>'34']
                 ]
             ]
         ]);
         /** @var \DOMElement $innerBody */
         $innerBody = $this->accessProp($client, 'requestXMLInnerBody');
-        die((string)$innerBody);
+        /** @var \DOMNodeList $name */
+        $name = $innerBody->getElementsByTagName('hot:name');
+        $this->assertEquals(2,$name->length);
+        $person = $innerBody->getElementsByTagName('hot:person');
+        $this->assertEquals(2,$person->length);
+        /** @var \DOMElement $name1 */
+        $name1 = $name->item(0);
+        $this->assertEquals('Mohamed Ahmed',$name1->textContent);
+        $name2 = $name->item(1);
+        $this->assertEquals('Ibrahim',$name2->textContent);
     }
 }
