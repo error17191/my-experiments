@@ -1,0 +1,15 @@
+<s:Envelope xmlns:s="http://www.w3.org/2003/05/soap-envelope" xmlns:a="http://www.w3.org/2005/08/addressing">
+    <s:Header>
+        <a:Action s:mustUnderstand="1">http://TekTravel/HotelBookingApi/IHotelService/HotelSearchResponse</a:Action>
+    </s:Header>
+    <s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+        <HotelSearchResponse xmlns="http://TekTravel/HotelBookingApi">
+            <Status>
+                <StatusCode>03</StatusCode>
+                <Description>ValidationErr: Invalid checkIn date 01/01/0001 00:00:00. CheckIn date must be greater than
+                    or equal to today date.
+                </Description>
+            </Status>
+        </HotelSearchResponse>
+    </s:Body>
+</s:Envelope>

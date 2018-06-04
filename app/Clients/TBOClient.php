@@ -3,6 +3,7 @@
 namespace App\Clients;
 
 use App\Exceptions\Clients\TBO\InvalidRequestStructure;
+use SoapClient;
 
 class TBOClient
 {
@@ -36,8 +37,29 @@ class TBOClient
      */
     private $action;
 
+    private $location = 'http://api.tbotechnology.in/hotelapi_v7/hotelservice.svc';
+
+    private $baseAction = 'http://TekTravel/HotelBookingApi/';
+
+    /**
+     * The xml response as a string
+     *
+     * @var string
+     */
+    private $responseXML;
+
+    /**
+     * The xml encoded into array|stdClass
+     *
+     * @var array|\stdClass
+     */
+    private $responseData;
+
+
     // Action Constants
     const ACTION_HOTEL_SEARCH = 'HotelSearch';
+    const ACTION_COUNTRY_LIST = 'CountryList';
+
 
     /**
      * TBOClient constructor.
@@ -62,8 +84,8 @@ class TBOClient
         $xml_cred->setAttribute("Password", "Syal@878");
         $this->requestXMLHead->appendChild($xml_cred);
         //Action
-        $xml_wsaa = $this->requestXMLDocument->createElement("wsa:Action", "http://TekTravel/HotelBookingApi/{$action}");
-        $xml_wsat = $this->requestXMLDocument->createElement("wsa:To", "http://api.tbotechnology.in/hotelapi_v7/hotelservice.svc");
+        $xml_wsaa = $this->requestXMLDocument->createElement("wsa:Action", $this->baseAction . $action);
+        $xml_wsat = $this->requestXMLDocument->createElement("wsa:To", $this->location);
         //Adding credentials and Action to head
         $this->requestXMLHead->appendChild($xml_wsaa);
         $this->requestXMLHead->appendChild($xml_wsat);
@@ -75,6 +97,11 @@ class TBOClient
         $this->requestXMLBody->appendChild($this->requestXMLInnerBody);
         $this->requestXMLEnv->appendChild($this->requestXMLBody);
         $this->requestXMLDocument->appendChild($this->requestXMLEnv);
+    }
+
+    public function setAction($action)
+    {
+        $this->action = $action;
     }
 
     /**
@@ -89,6 +116,61 @@ class TBOClient
         return $this;
     }
 
+    /**
+     * Returns the request xml as a string
+     *
+     * @return string
+     */
+    public function getRequestXML(): string
+    {
+        return $this->requestXMLDocument->saveXML();
+    }
+
+    /**
+     * Returns the request xml as a DOMDocument Object
+     *
+     * @return \DOMDocument
+     */
+    public function getRequestDOM(): \DOMDocument
+    {
+        return $this->requestXMLDocument;
+    }
+
+    /**
+     * Performs the request
+     *
+     * @return array|\stdClass
+     */
+
+    public function makeRequest()
+    {
+        $client = new SoapClient($this->location . '?wsdl');
+        $this->responseXML = $client->__doRequest($this->requestXMLDocument->saveXML(),
+            $this->location,
+            $this->baseAction . $this->action, 2);
+
+        $this->decodeResponse();
+    }
+
+    /**
+     * returns the xml response as a string
+     *
+     * @return string
+     */
+    public function responseXML(): string
+    {
+        return $this->responseXML;
+    }
+
+    /**
+     * returns the xml response as an array|stdClass
+     *
+     * @return array|\stdClass
+     */
+    public function responseData()
+    {
+        return $this->responseData;
+    }
 
     /**
      * Composes the inner body details of the request given array of data
@@ -97,35 +179,35 @@ class TBOClient
      * @param \DOMElement|null $parent
      * @param string|null $elementKey
      */
-    private function composeBody(array $data,\DOMElement $parent = null, string $elementKey = null)
+    private function composeBody(array $data, \DOMElement $parent = null, string $elementKey = null)
     {
-        if(null === $parent && is_numeric_array($data)){
+        if (null === $parent && is_numeric_array($data)) {
             throw new InvalidRequestStructure();
         }
 
-        if(is_numeric_array($data)){
+        if (is_numeric_array($data)) {
             foreach ($data as $datum) {
-                if(gettype($datum) !== 'array'){
-                    $this->composeField($elementKey,$datum,$parent);
-                }else{
-                    if($elementKey && is_numeric_array($datum)){
+                if (gettype($datum) !== 'array') {
+                    $this->composeField($elementKey, $datum, $parent);
+                } else {
+                    if ($elementKey && is_numeric_array($datum)) {
                         throw new InvalidRequestStructure();
                     }
-                    $parentElement = $this->composeField($elementKey,'',$parent);
-                    $this->composeBody($datum,$parentElement);
+                    $parentElement = $this->composeField($elementKey, '', $parent);
+                    $this->composeBody($datum, $parentElement);
                 }
             }
-        }else{
-            foreach ($data as $key => $value){
-                if(gettype($value) !== 'array'){
-                    $this->composeField($key,$value,$parent);
-                }elseif (is_numeric_array($value)){
-                    $parentElement = $this->composeField($key,'',$parent);
-                    $singularKey = substr($key,0,strlen($key)-1);
-                    $this->composeBody($value,$parentElement,$singularKey);
-                }else{
-                    $parentElement = $this->composeField($key,'',$parent);
-                    $this->composeBody($value,$parentElement);
+        } else {
+            foreach ($data as $key => $value) {
+                if (gettype($value) !== 'array') {
+                    $this->composeField($key, $value, $parent);
+                } elseif (is_numeric_array($value)) {
+                    $parentElement = $this->composeField($key, '', $parent);
+                    $singularKey = substr($key, 0, strlen($key) - 1);
+                    $this->composeBody($value, $parentElement, $singularKey);
+                } else {
+                    $parentElement = $this->composeField($key, '', $parent);
+                    $this->composeBody($value, $parentElement);
                 }
             }
         }
@@ -150,5 +232,17 @@ class TBOClient
         return $element;
     }
 
+    /**
+     * Converts the response XML into a usable data structure
+     *
+     */
+    private function decodeResponse()
+    {
+        $search = ['s:Envelope', 's:Header', 'a:Action', 's:Body'];
+        $replace = ['Envelope', 'Header', 'Action', 'Body'];
+        $realXML = str_replace($search, $replace, $this->responseXML);
+
+        $this->responseData = simplexml_load_string($realXML);
+    }
 }
 

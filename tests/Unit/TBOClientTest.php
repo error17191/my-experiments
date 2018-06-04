@@ -141,4 +141,10 @@ class TBOClientTest extends TestCase
             ]
         ]);
     }
+
+    public function test_getResponse_method()
+    {
+        $client = new TBOClient(TBOClient::ACTION_COUNTRY_LIST);
+        $client->getResponseData();
+    }
 }

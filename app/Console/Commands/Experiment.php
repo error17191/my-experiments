@@ -65,37 +65,37 @@ class Experiment extends Command
         /*create body*/
         $xml_bdy = $xml->createElement("soap:Body");
         $xml_bdyreq = $xml->createElement("hot:HotelSearchRequest");
-        $xml_bdyreqele = $xml->createElement("hot:CheckInDate", "2018-07-25");
-        $xml_bdyreq->appendChild($xml_bdyreqele);
-
-        $xml_bdyreqele = $xml->createElement("hot:CheckOutDate", "2018-07-26");
-        $xml_bdyreq->appendChild($xml_bdyreqele);
-
-        $xml_bdyreqele = $xml->createElement("hot:CountryName", "United Arab Emirates");
-        $xml_bdyreq->appendChild($xml_bdyreqele);
-
-        $xml_bdyreqele = $xml->createElement("hot:CityName", "Dubai");
-        $xml_bdyreq->appendChild($xml_bdyreqele);
-
-        $xml_bdyreqele = $xml->createElement("hot:CityId", "25921");
-        $xml_bdyreq->appendChild($xml_bdyreqele);
-
-        $xml_bdyreqele = $xml->createElement("hot:NoOfRooms", "1");
-        $xml_bdyreq->appendChild($xml_bdyreqele);
-
-        $xml_bdyreqele = $xml->createElement("hot:GuestNationality", "AE");
-        $xml_bdyreq->appendChild($xml_bdyreqele);
-
-        $xml_bdyreqele = $xml->createElement("hot:RoomGuests");
-        $xml_bdyreqinnerele = $xml->createElement("hot:RoomGuest");
-        $xml_bdyreqinnerele->setAttribute("AdultCount", "1");
-        $xml_bdyreqele->appendChild($xml_bdyreqinnerele);
-        $xml_bdyreq->appendChild($xml_bdyreqele);
-
-        $xml_bdyreqele = $xml->createElement("hot:Filters");
-        $xml_bdyreqinnerele = $xml->createElement("hot:StarRating", "All");
-        $xml_bdyreqele->appendChild($xml_bdyreqinnerele);
-        $xml_bdyreq->appendChild($xml_bdyreqele);
+//        $xml_bdyreqele = $xml->createElement("hot:CheckInDate", "2018-07-25");
+//        $xml_bdyreq->appendChild($xml_bdyreqele);
+//
+//        $xml_bdyreqele = $xml->createElement("hot:CheckOutDate", "2018-07-26");
+//        $xml_bdyreq->appendChild($xml_bdyreqele);
+//
+//        $xml_bdyreqele = $xml->createElement("hot:CountryName", "United Arab Emirates");
+//        $xml_bdyreq->appendChild($xml_bdyreqele);
+//
+//        $xml_bdyreqele = $xml->createElement("hot:CityName", "Dubai");
+//        $xml_bdyreq->appendChild($xml_bdyreqele);
+//
+//        $xml_bdyreqele = $xml->createElement("hot:CityId", "25921");
+//        $xml_bdyreq->appendChild($xml_bdyreqele);
+//
+//        $xml_bdyreqele = $xml->createElement("hot:NoOfRooms", "1");
+//        $xml_bdyreq->appendChild($xml_bdyreqele);
+//
+//        $xml_bdyreqele = $xml->createElement("hot:GuestNationality", "AE");
+//        $xml_bdyreq->appendChild($xml_bdyreqele);
+//
+//        $xml_bdyreqele = $xml->createElement("hot:RoomGuests");
+//        $xml_bdyreqinnerele = $xml->createElement("hot:RoomGuest");
+//        $xml_bdyreqinnerele->setAttribute("AdultCount", "1");
+//        $xml_bdyreqele->appendChild($xml_bdyreqinnerele);
+//        $xml_bdyreq->appendChild($xml_bdyreqele);
+//
+//        $xml_bdyreqele = $xml->createElement("hot:Filters");
+//        $xml_bdyreqinnerele = $xml->createElement("hot:StarRating", "All");
+//        $xml_bdyreqele->appendChild($xml_bdyreqinnerele);
+//        $xml_bdyreq->appendChild($xml_bdyreqele);
 
         $xml_bdy->appendChild($xml_bdyreq);
         $xml_env->appendChild($xml_bdy);
@@ -107,7 +107,8 @@ class Experiment extends Command
         $action = "http://TekTravel/HotelBookingApi/HotelSearch";
         $client = new \SoapClient("http://api.tbotechnology.in/hotelapi_v7/hotelservice.svc?wsdl");
         $resp = $client->__doRequest($request, $location, $action, 2);
-        Storage::put('response.xml',$resp);
+        echo $resp;
+
         exit;
         $xml = simplexml_load_string($resp, "SimpleXMLElement", LIBXML_NOCDATA);
         $json = json_encode($xml);

@@ -1,0 +1,51 @@
+
+  [41;1m SoapFault [49;22m : [33mSOAP-ERROR: Parsing WSDL: Couldn't find [39m[33m<definitions>[39m[33m in 'http://api.tbotechnology.in/hotelapi_v7/hotelservice.svc'[39m
+
+  at [32mD:\Projects\travninja-experiments\app\Clients\TBOClient.php[39m:[32m142[39m
+    [90;3m138| [0m[90;3m     */[0m
+    [90;3m139| [0m
+    [90;3m140| [0m[90;3m    [0m[33mpublic function [0m[39;1mmakeRequest[0m[33m()[0m
+    [90;3m141| [0m[33m    {[0m
+[41;1m  > [0m[90;3m142| [0m[33m        [0m[39;1m$client [0m[33m= new [0m[39;1mSoapClient[0m[33m([0m[39;1m$this[0m[33m->[0m[39;1mlocation[0m[33m);[0m
+    [90;3m143| [0m[33m        [0m[39;1m$this[0m[33m->[0m[39;1mresponseXML [0m[33m= [0m[39;1m$client[0m[33m->[0m[39;1m__doRequest[0m[33m([0m[39;1m$this[0m[33m->[0m[39;1mrequestXMLDocument[0m[33m->[0m[39;1msaveXML[0m[33m(),[0m
+    [90;3m144| [0m[33m            [0m[39;1m$this[0m[33m->[0m[39;1mlocation[0m[33m,[0m
+    [90;3m145| [0m[33m            [0m[39;1m$this[0m[33m->[0m[39;1mbaseAction [0m[33m. [0m[39;1m$this[0m[33m->[0m[39;1maction[0m[33m, [0m[39;1m2[0m[33m);[0m
+    [90;3m146| [0m
+
+  [33mException trace:[39m
+
+  [36m1   [39m[33mSoapClient::SoapClient("http://api.tbotechnology.in/hotelapi_v7/hotelservice.svc")[39m
+      [32mD:\Projects\travninja-experiments\app\Clients\TBOClient.php[39m:[32m142[39m
+
+  [36m2   [39m[33mApp\Clients\TBOClient::makeRequest()[39m
+      [32mD:\Projects\travninja-experiments\app\Console\Commands\testClient.php[39m:[32m43[39m
+
+  [32mPlease use the argument [39m[31m-v[39m[32m to see more details.[39m
+
+  [41;1m Symfony\Component\Debug\Exception\FatalErrorException [49;22m : [33mSOAP-ERROR: Parsing WSDL: Couldn't find [39m[33m<definitions>[39m[33m in 'http://api.tbotechnology.in/hotelapi_v7/hotelservice.svc'[39m
+
+  at [32mD:\Projects\travninja-experiments\app\Clients\TBOClient.php[39m:[32m142[39m
+    [90;3m138| [0m[90;3m     */[0m
+    [90;3m139| [0m
+    [90;3m140| [0m[90;3m    [0m[33mpublic function [0m[39;1mmakeRequest[0m[33m()[0m
+    [90;3m141| [0m[33m    {[0m
+[41;1m  > [0m[90;3m142| [0m[33m        [0m[39;1m$client [0m[33m= new [0m[39;1mSoapClient[0m[33m([0m[39;1m$this[0m[33m->[0m[39;1mlocation[0m[33m);[0m
+    [90;3m143| [0m[33m        [0m[39;1m$this[0m[33m->[0m[39;1mresponseXML [0m[33m= [0m[39;1m$client[0m[33m->[0m[39;1m__doRequest[0m[33m([0m[39;1m$this[0m[33m->[0m[39;1mrequestXMLDocument[0m[33m->[0m[39;1msaveXML[0m[33m(),[0m
+    [90;3m144| [0m[33m            [0m[39;1m$this[0m[33m->[0m[39;1mlocation[0m[33m,[0m
+    [90;3m145| [0m[33m            [0m[39;1m$this[0m[33m->[0m[39;1mbaseAction [0m[33m. [0m[39;1m$this[0m[33m->[0m[39;1maction[0m[33m, [0m[39;1m2[0m[33m);[0m
+    [90;3m146| [0m
+
+
+  [41;1m Whoops\Exception\ErrorException [49;22m : [33mSOAP-ERROR: Parsing WSDL: Couldn't find [39m[33m<definitions>[39m[33m in 'http://api.tbotechnology.in/hotelapi_v7/hotelservice.svc'[39m
+
+  at [32mD:\Projects\travninja-experiments\app\Clients\TBOClient.php[39m:[32m142[39m
+    [90;3m138| [0m[90;3m     */[0m
+    [90;3m139| [0m
+    [90;3m140| [0m[90;3m    [0m[33mpublic function [0m[39;1mmakeRequest[0m[33m()[0m
+    [90;3m141| [0m[33m    {[0m
+[41;1m  > [0m[90;3m142| [0m[33m        [0m[39;1m$client [0m[33m= new [0m[39;1mSoapClient[0m[33m([0m[39;1m$this[0m[33m->[0m[39;1mlocation[0m[33m);[0m
+    [90;3m143| [0m[33m        [0m[39;1m$this[0m[33m->[0m[39;1mresponseXML [0m[33m= [0m[39;1m$client[0m[33m->[0m[39;1m__doRequest[0m[33m([0m[39;1m$this[0m[33m->[0m[39;1mrequestXMLDocument[0m[33m->[0m[39;1msaveXML[0m[33m(),[0m
+    [90;3m144| [0m[33m            [0m[39;1m$this[0m[33m->[0m[39;1mlocation[0m[33m,[0m
+    [90;3m145| [0m[33m            [0m[39;1m$this[0m[33m->[0m[39;1mbaseAction [0m[33m. [0m[39;1m$this[0m[33m->[0m[39;1maction[0m[33m, [0m[39;1m2[0m[33m);[0m
+    [90;3m146| [0m
+

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:hot="http://TekTravel/HotelBookingApi">
+    <soap:Header xmlns:wsa="http://www.w3.org/2005/08/addressing">
+        <hot:Credentials UserName="syal" Password="Syal@878"/>
+        <wsa:Action>http://TekTravel/HotelBookingApi/HotelSearch</wsa:Action>
+        <wsa:To>http://api.tbotechnology.in/hotelapi_v7/hotelservice.svc</wsa:To>
+    </soap:Header>
+    <soap:Body>
+        <hot:HotelSearchRequest/>
+    </soap:Body>
+</soap:Envelope>
