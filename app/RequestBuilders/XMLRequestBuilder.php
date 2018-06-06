@@ -51,8 +51,7 @@ class XMLRequestBuilder implements RequestBuilder
      */
     public function getRequestXML(): string
     {
-        $document = new \DOMDocument();
-        return $document->saveHTML($this->requestBody);
+        return $this->document->saveHTML($this->requestBody);
     }
 
     /**
@@ -89,15 +88,17 @@ class XMLRequestBuilder implements RequestBuilder
      * @param string|null $text
      * @param \DOMElement|null $parent
      * @param array|null $attributes
+     * @param string|'' $prefix
      *
      * @return \DOMElement
      */
-    protected function composeField(string $name,string $text = null,\DOMElement $parent = null,array $attributes = null): \DOMElement
+    protected function composeField(string $name,string $text = null,\DOMElement $parent = null,array $attributes = null,$prefix = ''): \DOMElement
     {
+        $name = $prefix . $name;
         $element = $this->document->createElement($name,$text);
         if(count($attributes) > 0){
-            foreach ($attributes as $name => $value) {
-                $element->setAttribute($name,$value);
+            foreach ($attributes as $key => $value) {
+                $element->setAttribute($key,$value);
             }
         }
         if($parent){
